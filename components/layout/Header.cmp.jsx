@@ -8,6 +8,7 @@ export default function Header() {
 				<nav className='nav hidden md:flex md:flex-row md:gap-4 md:justify-end'>
 					<Link href={`/`}>Homepage</Link>
 					<Link href={`/blog-reviews`}>Reviews Blog</Link>
+					<Link href={`/submit-review`}>Submit A Review</Link>
 					<Link href={`/contact`}>Contact</Link>
 				</nav>
 				<div className='navMobile md:hidden'>
