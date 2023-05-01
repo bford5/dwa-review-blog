@@ -1,13 +1,24 @@
 import { useRef, useEffect, useState } from "react";
 
 export default function ContactForm() {
-	const contactName = useRef("");
-	const contactEmail = useRef("");
-	const contactOptIn = useRef("");
+	const [contactName, setContactName] = useState("");
+	const [contactEmail, setContactEmail] = useState("");
 	const [newsletterOptIn, setNewsletterOptIn] = useState(false);
 
 	const submitHandler = (e) => {
 		e.preventDefault();
+
+		fetch("/api/contact", {
+			method: "POST",
+			body: JSON.stringify({
+				contactName,
+				contactEmail,
+				newsletterOptIn,
+			}),
+			headers: {
+				"Content-Type": "application/json",
+			},
+		});
 	};
 
 	return (
@@ -24,6 +35,8 @@ export default function ContactForm() {
 						className='formInput'
 						placeholder='name'
 						required
+						value={contactName}
+						onChange={(e) => setContactName(e.target.value)}
 					/>
 				</span>
 				<span>
@@ -33,6 +46,9 @@ export default function ContactForm() {
 						id='reviecontactEmailwTitle'
 						placeholder='email'
 						className='formInput'
+						required
+						value={contactEmail}
+						onChange={(e) => setContactEmail(e.target.value)}
 					/>
 				</span>
 				<span>
@@ -51,8 +67,8 @@ export default function ContactForm() {
 				</span>
 
 				<span className='submitArea'>
-					<button className='bg-black rounded-md px-4 py-2'>
-						Submit Review
+					<button type='submit' className='bg-black rounded-md px-4 py-2'>
+						Submit
 					</button>
 				</span>
 			</form>
