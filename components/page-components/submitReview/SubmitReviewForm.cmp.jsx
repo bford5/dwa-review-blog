@@ -1,14 +1,32 @@
-import { useRef, useEffect, useState } from "react";
+import { useState } from "react";
 
-export default function SubmitReviewForm() {
-	const reviewLink = useRef("");
-	const reviewTitle = useRef("");
-	const reviewDescription = useRef("");
-	const reviewContent = useRef("");
+export default function SubmitReviewForm(props) {
+	const [reviewLink, setReviewLink] = useState("");
+	const [reviewTitle, setReviewTitle] = useState("");
+	const [reviewDescription, setReviewDescription] = useState("");
+	const [reviewContent, setReviewContent] = useState("");
 	const [reviewIsFeatured, setReviewIsFeatured] = useState(false);
 
 	const submitHandler = (e) => {
 		e.preventDefault();
+
+		// will need to add front-end/full validation to check reviewLink against existing DB entries.
+		// can use getServersideProps to get back an array of objects only containing the existing reviewLinks and check against that.
+		//
+
+		fetch("/api/review", {
+			method: "POST",
+			body: JSON.stringify({
+				reviewLink,
+				reviewTitle,
+				reviewDescription,
+				reviewContent,
+				reviewIsFeatured,
+			}),
+			headers: {
+				"Content-Type": "application/json",
+			},
+		});
 	};
 
 	return (
@@ -27,9 +45,11 @@ export default function SubmitReviewForm() {
 						className='formInput'
 						placeholder='Review Link'
 						required
+						onChange={(e) => setReviewLink(e.target.value)}
+						value={reviewLink}
 					/>
 					<span className=' block text-sm italic pt-0 pb-4'>
-						format like: desired-link-text
+						format like: review-#, so review-8,9,...
 					</span>
 				</span>
 				<span>
@@ -41,6 +61,9 @@ export default function SubmitReviewForm() {
 						id='reviewTitle'
 						placeholder='Review Title'
 						className='formInput'
+						required
+						onChange={(e) => setReviewTitle(e.target.value)}
+						value={reviewTitle}
 					/>
 				</span>
 				<span>
@@ -66,6 +89,9 @@ export default function SubmitReviewForm() {
 						placeholder='Review Description'
 						rows={3}
 						className=' w-1/2 mx-auto p-4'
+						required
+						onChange={(e) => setReviewDescription(e.target.value)}
+						value={reviewDescription}
 					/>
 				</span>
 				<span className='text-center'>
@@ -77,10 +103,13 @@ export default function SubmitReviewForm() {
 						placeholder='Review Content'
 						rows={7}
 						className=' w-1/2 mx-auto p-4'
+						required
+						onChange={(e) => setReviewContent(e.target.value)}
+						value={reviewContent}
 					/>
 				</span>
 				<span className='submitArea'>
-					<button className='bg-black rounded-md px-4 py-2'>
+					<button type='submit' className='bg-black rounded-md px-4 py-2'>
 						Submit Review
 					</button>
 				</span>

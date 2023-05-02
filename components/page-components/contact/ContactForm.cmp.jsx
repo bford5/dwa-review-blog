@@ -8,7 +8,7 @@ export default function ContactForm() {
 	const submitHandler = (e) => {
 		e.preventDefault();
 
-		fetch("/api/contact", {
+		fetch("/api/contact-submit", {
 			method: "POST",
 			body: JSON.stringify({
 				contactName,
